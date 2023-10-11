@@ -2,7 +2,7 @@
 #include <ctime>
 using namespace std;
 int depositMoney();
-int useDepositedMoney();
+int betMoney();
 
 int main(){
     // Variables.
@@ -19,7 +19,7 @@ int main(){
         if (age >= 18){
             //depositedMoney = depositMoney();
             
-            stake = useDepositedMoney();
+            stake = betMoney();
             cout << "success, for now :(";
             break;
 
@@ -52,7 +52,7 @@ int depositMoney(){
     return amountOfMoney;
 }
 
-int useDepositedMoney(){
+int betMoney(){
     int bet;
     int depositedMoney;
 
