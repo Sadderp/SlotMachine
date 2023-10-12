@@ -2,11 +2,11 @@
 #include <ctime>
 using namespace std;
 int depositMoney();
-int betMoney();
+int betMoney(int bet);
 
 int main(){
     // Variables.
-    int age, stake, totalWinToday = 0, playAgain;
+    int age, stake, totalWinToday = 0, playAgain, depositedMoney;
     bool play = true;
 
     // Welcomes the user.
@@ -17,9 +17,29 @@ int main(){
     while(play == true){
         // If the age of the user is 18 or above and wants to play again, they get to play.
         if (age >= 18){
-            //depositedMoney = depositMoney();
-            
-            stake = betMoney();
+            depositedMoney = depositMoney();
+            stake = betMoney(depositedMoney);
+
+            int field[3][3];
+
+            for (int row = 0; row < 3; row++){
+                for (int square = 0; square < 3; square++){
+                    field[row][square] = rand() % 3;
+                    int character = field[row][square];
+                    switch(character){
+                        case 0:
+                            cout << "O ";
+                            break;
+                        case 1:
+                            cout << "X ";
+                            break;
+                        case 2:
+                            cout << "A ";
+                            break;
+                    }
+                }
+                cout << "\n\n";
+            }
             cout << "success, for now :(";
             break;
 
@@ -33,7 +53,7 @@ int main(){
     return 0;
 }
 
-// Askes the user how much money they want to deposit. It must be at least 100 kr.
+// Deposit money
 int depositMoney(){
     int amountOfMoney;
 
@@ -48,25 +68,23 @@ int depositMoney(){
     cout << endl;
     cout << "You deposited " << amountOfMoney << " kr." << endl;
 
-    cout << endl;
     return amountOfMoney;
 }
 
-int betMoney(){
+// Bet money from the deposited money
+int betMoney(int getDepositedMoney){
     int bet;
-    int depositedMoney;
-
-    depositedMoney = depositMoney();
 
     // The amount of money the user wants to bet.
     do {
-        cout << "You have " << depositedMoney << " kr deposited and must use more than 100 of them." << endl;
+        
         cout << endl;
         cout << "You also need to bet an amount of money that is at least 100 kr and not above your total deposit. (Type in the amount you want to bet).\n"
+                "You have "<< getDepositedMoney << " kr deposited.\n"
                 "How much do you want to bet?: ";
         cin >> bet;
         cout << endl;
-    } while (bet < 100 || bet > depositedMoney);
+    } while (bet < 100 && cout << "You cannot bet under 100 kr." << endl || bet > getDepositedMoney && cout << "You cannot bet more than your deposit (" << getDepositedMoney << ") kr." << endl );
 
     return bet;
 }
