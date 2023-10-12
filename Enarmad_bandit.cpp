@@ -60,10 +60,14 @@ int depositMoney(){
     // The amount of money the user wants to deposit.
     do {
         cout << endl;
-        cout << "You need to deposit an amount of money that is at least 100 kr. (Type in the amount you want to deposit).\n"
+        cout << "You need to deposit an amount of money. (Type in the amount you want to deposit).\n"
+                "1. 100 kr\n"
+                "2. 300 kr\n"
+                "3. 500 kr\n"
                 "How much do you want to deposit?: ";
         cin >> amountOfMoney;
-    } while (amountOfMoney < 100);
+        cout << endl;
+    } while (amountOfMoney != 100 && amountOfMoney != 300 && amountOfMoney != 500 && cout << "You can only choose between 100, 300 or 500 kr.");
 
     cout << endl;
     cout << "You deposited " << amountOfMoney << " kr." << endl;
