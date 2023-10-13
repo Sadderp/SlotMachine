@@ -83,6 +83,7 @@ int betMoney(int getDepositedMoney){
     return bet;
 }
 
+// Creates a gamefield and checks the win
 bool createFieldAndCheckWin(){
     // Creates an 2D array that is 3*3.
     int field[3][3];
