@@ -44,7 +44,7 @@ int main(){
     return 0;
 }
 
-// Deposit money
+// Deposit money.
 int depositMoney(){
     int amountOfMoney;
 
@@ -65,7 +65,7 @@ int depositMoney(){
     return amountOfMoney;
 }
 
-// Bet money from the deposited money
+// Bet money from the deposited money.
 int betMoney(int getDepositedMoney){
     int bet;
 
@@ -83,7 +83,7 @@ int betMoney(int getDepositedMoney){
     return bet;
 }
 
-// Creates a gamefield and checks the win
+// Creates a gamefield and checks the result.
 bool createFieldAndCheckWin(){
     // Creates an 2D array that is 3*3.
     int field[3][3];
