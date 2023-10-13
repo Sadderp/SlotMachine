@@ -4,7 +4,7 @@
 using namespace std;
 int depositMoney();
 int betMoney(int bet);
-bool creatFieldAndCheckWin();
+bool createFieldAndCheckWin();
 
 int main(){
     // Variables.
@@ -25,7 +25,7 @@ int main(){
             depositedMoney = depositMoney();
             stake = betMoney(depositedMoney);
 
-            if (creatFieldAndCheckWin()) {
+            if (createFieldAndCheckWin()) {
                 cout << "Du har vunnit!\n";
             }
             else {
@@ -83,7 +83,7 @@ int betMoney(int getDepositedMoney){
     return bet;
 }
 
-bool creatFieldAndCheckWin(){
+bool createFieldAndCheckWin(){
     // Creates an 2D array that is 3*3.
     int field[3][3];
 
