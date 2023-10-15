@@ -3,12 +3,17 @@
 #include <cstdlib>
 using namespace std;
 int depositMoney();
-int betMoney(int bet);
-bool createFieldAndCheckWin();
+int betMoney(int);
+int createFieldAndCheckWin();
+int checkFieldResult(int, int, int);
+int playAgain(int);
+
+// Global variables.
+int totalWinToday = 0;
 
 int main(){
     // Variables.
-    int age, stake, totalWinToday = 0, playAgain, depositedMoney;
+    int age, stake, depositedMoney;
     bool win = false;
 
     // Resets the time on the random function.
@@ -23,14 +28,8 @@ int main(){
         // If the age of the user is 18 or above and wants to play again, they get to play.
         if (age >= 18){
             depositedMoney = depositMoney();
-            stake = betMoney(depositedMoney);
-
-            if (createFieldAndCheckWin()) {
-                cout << "Du har vunnit!\n";
-            }
-            else {
-                cout << "Ingen vinst denna gång.\n";
-            }
+            stake = checkFieldResult(createFieldAndCheckWin(), depositedMoney, betMoney(depositedMoney));
+            playAgain(stake);
 
             cout << "success, for now :(";
             break;
@@ -46,6 +45,7 @@ int main(){
 
 // Deposit money.
 int depositMoney(){
+    // Variables.
     int amountOfMoney;
 
     // The amount of money the user wants to deposit.
@@ -67,6 +67,7 @@ int depositMoney(){
 
 // Bet money from the deposited money.
 int betMoney(int getDepositedMoney){
+    // Variables.
     int bet;
 
     // The amount of money the user wants to bet.
@@ -84,7 +85,10 @@ int betMoney(int getDepositedMoney){
 }
 
 // Creates a gamefield and checks the result.
-bool createFieldAndCheckWin(){
+int createFieldAndCheckWin(){
+    // Variables.
+    int win = 0;
+
     // Creates an 2D array that is 3*3.
     int field[3][3];
 
@@ -112,23 +116,95 @@ bool createFieldAndCheckWin(){
     // Rows.
     for (int i = 0; i < 3; i++) {
         if (field[i][0] == field[i][1] && field[i][1] == field[i][2]) {
-            return true;
+            win += 1;
         }
     }
 
     // Columns.
     for (int i = 0; i < 3; i++) {
         if (field[0][i] == field[1][i] && field[1][i] == field[2][i]) {
-            return true;
+            win += 1;
         }
     }
+    
     // Top left to bot right.
     if (field[0][0] == field[1][1] && field[1][1] == field[2][2]) {
-        return true;
+        win += 1;
     }
     // Bot left to top right.
     else if (field[0][2] == field[1][1] && field[1][1] == field[2][0]) {
-        return true;
+        win += 1;
     }
-    return false;
+    return win;
+}
+
+// Checks the result of the field and how much money the user won.
+int checkFieldResult(int winResult, int getDepositedMoney, int bet){
+    // Variables.
+    int newMoneyAmount;
+
+    // How many rows, columns and/or diagonals that is correct.
+    // One argument
+    switch(winResult){
+        case 1:
+            newMoneyAmount = getDepositedMoney += bet*2;
+            totalWinToday += bet*2;
+            cout << "You got one argument correct, you win " << bet*2 << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
+                    "You have won/lost this much today: " << totalWinToday << " kr.";
+            return newMoneyAmount;
+        // Two arguments
+        case 2:
+            newMoneyAmount = getDepositedMoney += bet*2;
+            totalWinToday += bet*2;
+            cout << "You got two arguments correct, you win " << bet*2 << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
+                    "You have won/lost this much today: " << totalWinToday << " kr.";
+            return newMoneyAmount;
+        // Three arguments
+        case 3:
+            newMoneyAmount = getDepositedMoney += bet*3;
+            totalWinToday += bet*3;
+            cout << "You got three arguments correct, you win " << bet*3 << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
+                    "You have won/lost this much today: " << totalWinToday << " kr.";
+            return newMoneyAmount;
+        // Four arguemnts
+        case 4:
+            newMoneyAmount = getDepositedMoney += bet*3;
+            totalWinToday += bet*3;
+            cout << "You got four arguments correct, you win " << bet*3 << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
+                    "You have won/lost this much today: " << totalWinToday << " kr.";
+            return newMoneyAmount;
+        // Five arguments
+        case 5:
+            newMoneyAmount = getDepositedMoney += bet*5;
+            totalWinToday += bet*5;
+            cout << "You got five arguments correct, you win " << bet*5 << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
+                    "You have won/lost this much today: " << totalWinToday << " kr.";
+            return newMoneyAmount;
+        // Six arguments
+        case 6:
+            newMoneyAmount = getDepositedMoney += bet*5;
+            totalWinToday += bet*5;
+            cout << "You got six arguments correct, you win " << bet*5 << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
+                    "You have won/lost this much today: " << totalWinToday << " kr.";
+            return newMoneyAmount;
+        // Eight arguments
+        case 8:
+            newMoneyAmount = getDepositedMoney += bet*10;
+            totalWinToday += bet*10;
+            cout << "You got full field, you win " << bet*10 << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
+                    "You have won/lost this much today: " << totalWinToday << " kr.";
+            return newMoneyAmount;
+        // Zero arguments
+        case 0:
+            newMoneyAmount = getDepositedMoney -= bet;
+            totalWinToday -= bet;
+            cout << "You lost " << bet << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
+                    "You have won/lost this much today: " << totalWinToday << " kr.";
+            return newMoneyAmount;
+    }
+}
+
+int playAgain(int moneyToPlayAgain){
+    // Variables.
+    int playAgain;
 }
