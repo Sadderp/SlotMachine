@@ -6,51 +6,62 @@ int depositMoney();
 int betMoney(int);
 int createFieldAndCheckWin();
 int checkFieldResult(int, int, int);
-int playAgain(int);
+int checkAge();
+void playAgain(int, int);
+void gameLoop();
 
 // Global variables.
 int totalWinToday = 0;
 
 int main(){
-    // Variables.
-    int age, stake, depositedMoney;
-    bool win = false;
+    int checkedAge;
+    checkedAge = checkAge();
+    if (checkedAge >= 18 && checkedAge <= 120){
+        gameLoop();
+    }
+    else{
+        cout << "Error!";
+    }
+    return 0;
+}
 
+void gameLoop(){
+    // Variables.
+    int checkedAge, stake, depositedMoney;
+    bool win = false;
+    
     // Resets the time on the random function.
     srand(time(0));
 
+    
+    depositedMoney = depositMoney();
+    stake = checkFieldResult(createFieldAndCheckWin(), depositedMoney, betMoney(depositedMoney));
+    playAgain(stake, depositedMoney);
+}
+
+int checkAge(){
+    // Variables.
+    int age;
+
     // Welcomes the user.
-    cout << "Welcome!\n"
-            "How old are you?: ";
-    cin >> age;
+    do {
+        cout << endl;
+        cout << "Welcome!\n"
+                "You need to enter your age (18-120)\n"
+                "How old are you?: ";
+        cin >> age;
+        cout << endl;
+    } while (age < 18 && cout << "You must be at least 18 years old!\n" || age > 120 && cout << "You can't be older than 120 years!\n");
 
-    while(true){
-        // If the age of the user is 18 or above and wants to play again, they get to play.
-        if (age >= 18){
-            depositedMoney = depositMoney();
-            stake = checkFieldResult(createFieldAndCheckWin(), depositedMoney, betMoney(depositedMoney));
-            playAgain(stake);
-
-            cout << "success, for now :(";
-            break;
-        }
-        else{
-            cout << endl;
-            cout << "You need to be at least 18 years old to play!";
-            break;
-        }
-    }
-    return 0;
+    return age;
 }
 
 // Deposit money.
 int depositMoney(){
     // Variables.
     int amountOfMoney;
-
     // The amount of money the user wants to deposit.
     do {
-        cout << endl;
         cout << "You need to deposit an amount of money. (Type in the amount you want to deposit).\n"
                 "1. 100 kr\n"
                 "2. 300 kr\n"
@@ -80,7 +91,7 @@ int betMoney(int getDepositedMoney){
         cin >> bet;
         cout << endl;
     } while (bet < 100 && cout << "You cannot bet under 100 kr." << endl || bet > getDepositedMoney && cout << "You cannot bet more than your deposit (" << getDepositedMoney << ") kr." << endl );
-
+    
     return bet;
 }
 
@@ -151,6 +162,7 @@ int checkFieldResult(int winResult, int getDepositedMoney, int bet){
             totalWinToday += bet*2;
             cout << "You got one argument correct, you win " << bet*2 << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
                     "You have won/lost this much today: " << totalWinToday << " kr.";
+            cout << endl;
             return newMoneyAmount;
         // Two arguments
         case 2:
@@ -158,6 +170,7 @@ int checkFieldResult(int winResult, int getDepositedMoney, int bet){
             totalWinToday += bet*2;
             cout << "You got two arguments correct, you win " << bet*2 << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
                     "You have won/lost this much today: " << totalWinToday << " kr.";
+            cout << endl;
             return newMoneyAmount;
         // Three arguments
         case 3:
@@ -165,6 +178,7 @@ int checkFieldResult(int winResult, int getDepositedMoney, int bet){
             totalWinToday += bet*3;
             cout << "You got three arguments correct, you win " << bet*3 << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
                     "You have won/lost this much today: " << totalWinToday << " kr.";
+            cout << endl;
             return newMoneyAmount;
         // Four arguemnts
         case 4:
@@ -172,6 +186,7 @@ int checkFieldResult(int winResult, int getDepositedMoney, int bet){
             totalWinToday += bet*3;
             cout << "You got four arguments correct, you win " << bet*3 << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
                     "You have won/lost this much today: " << totalWinToday << " kr.";
+            cout << endl;
             return newMoneyAmount;
         // Five arguments
         case 5:
@@ -179,6 +194,7 @@ int checkFieldResult(int winResult, int getDepositedMoney, int bet){
             totalWinToday += bet*5;
             cout << "You got five arguments correct, you win " << bet*5 << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
                     "You have won/lost this much today: " << totalWinToday << " kr.";
+            cout << endl;
             return newMoneyAmount;
         // Six arguments
         case 6:
@@ -186,6 +202,7 @@ int checkFieldResult(int winResult, int getDepositedMoney, int bet){
             totalWinToday += bet*5;
             cout << "You got six arguments correct, you win " << bet*5 << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
                     "You have won/lost this much today: " << totalWinToday << " kr.";
+            cout << endl;
             return newMoneyAmount;
         // Eight arguments
         case 8:
@@ -193,6 +210,7 @@ int checkFieldResult(int winResult, int getDepositedMoney, int bet){
             totalWinToday += bet*10;
             cout << "You got full field, you win " << bet*10 << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
                     "You have won/lost this much today: " << totalWinToday << " kr.";
+            cout << endl;
             return newMoneyAmount;
         // Zero arguments
         case 0:
@@ -200,11 +218,39 @@ int checkFieldResult(int winResult, int getDepositedMoney, int bet){
             totalWinToday -= bet;
             cout << "You lost " << bet << " kr and your new deposit is " << newMoneyAmount << " kr!\n"
                     "You have won/lost this much today: " << totalWinToday << " kr.";
+            cout << endl;
             return newMoneyAmount;
     }
 }
 
-int playAgain(int moneyToPlayAgain){
+// Play again.
+void playAgain(int enoughMoney, int remainingMoney){
     // Variables.
     int playAgain;
+
+    // Askes if the user wants to play again.
+    do {
+        cout << endl;
+        cout << "Do you want to play again or cash out? (Type 1 to play again, 2 to cash out).\n"
+                "1. Play again\n"
+                "2. Cash out\n"
+                "Type in your answer here: ";
+        cin >> playAgain;
+        cout << endl;
+    } while (playAgain != 1 && playAgain != 2 && cout << "You can only input 1 or 2.");
+
+    if(playAgain == 1){
+        if(remainingMoney < 100){
+            cout << "You need to deposit more money." << endl;
+            cout << endl;
+            depositMoney();
+        }
+        else{
+            gameLoop();
+        }
+    }
+    else{
+        cout << "Thanks for playing!" << endl;
+        exit(0);
+    }
 }
