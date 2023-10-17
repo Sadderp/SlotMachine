@@ -15,6 +15,7 @@ int totalWinToday = 0;
 
 int main(){
     int checkedAge;
+
     checkedAge = checkAge();
     if (checkedAge >= 18 && checkedAge <= 120){
         gameLoop();
@@ -25,6 +26,7 @@ int main(){
     return 0;
 }
 
+// Gameloop.
 void gameLoop(){
     // Variables.
     int checkedAge, stake, depositedMoney;
@@ -39,6 +41,7 @@ void gameLoop(){
     playAgain(stake, depositedMoney);
 }
 
+// Gets the age of the user.
 int checkAge(){
     // Variables.
     int age;
