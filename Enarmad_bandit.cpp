@@ -7,7 +7,7 @@ int betMoney(int);
 int createFieldAndCheckWin();
 int checkFieldResult(int, int, int);
 int checkAge();
-void playAgain(int, int);
+void playAgain(int);
 void gameLoop();
 
 // Global variables.
@@ -21,7 +21,7 @@ int main(){
         gameLoop();
     }
     else{
-        cout << "Error!";
+        cout << "Error! Something went wrong!";
     }
     return 0;
 }
@@ -35,10 +35,9 @@ void gameLoop(){
     // Resets the time on the random function.
     srand(time(0));
 
-    
     depositedMoney = depositMoney();
     stake = checkFieldResult(createFieldAndCheckWin(), depositedMoney, betMoney(depositedMoney));
-    playAgain(stake, depositedMoney);
+    playAgain(stake);
 }
 
 // Gets the age of the user.
@@ -227,7 +226,7 @@ int checkFieldResult(int winResult, int getDepositedMoney, int bet){
 }
 
 // Play again.
-void playAgain(int enoughMoney, int remainingMoney){
+void playAgain(int remainingMoney){
     // Variables.
     int playAgain;
 
@@ -246,7 +245,7 @@ void playAgain(int enoughMoney, int remainingMoney){
         if(remainingMoney < 100){
             cout << "You need to deposit more money." << endl;
             cout << endl;
-            depositMoney();
+            gameLoop();
         }
         else{
             gameLoop();
