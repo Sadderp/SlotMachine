@@ -29,7 +29,7 @@ int main(){
 // Gameloop.
 void gameLoop(){
     // Variables.
-    int checkedAge, stake, depositedMoney;
+    int stake, depositedMoney;
     bool win = false;
     
     // Resets the time on the random function.
