@@ -14,7 +14,9 @@ void gameLoop();
 int totalWinToday = 0;
 int depositedMoney = 0;
 
+// Mainloop of the program.
 int main() {
+    // Variables.
     int checkedAge;
 
     checkedAge = checkAge();
@@ -22,19 +24,47 @@ int main() {
         gameLoop();
     }
     else {
-        cout << "Error! Something went wrong!";
+        cout << "Error! Something went wrong!"; // This should not be able to happen because of the do while loop in the checkAge() function.
     }
+    /*
+    * behöver den här vara här? 
+    * När man väljer "cash out" så exitar den där och det är enda gången den faktiskt avslutar
+    */
     return 0;
+}
+
+/*
+* Motverkar den verkligen att man inputtar allt som inte är en bokstav 
+*/
+// Prevents the code from crashing when inputting something that isn't a letter.
+void checkInput() {
+    if (cin.fail()) {
+        cin.clear();
+        cin.ignore(256, '\n');
+        cout << endl;
+        cout << "Please only input numbers." << endl;
+    }
 }
 
 // Gameloop.
 void gameLoop() {
+    /*
+    * Win boolen används fortfarande inte, ta bort den om den inte ska användas
+    */
     // Variables.
     bool win = false;
 
+    /*
+    * Detta är enda gången som srand används, varför står detta här?
+    * Gammal användning?
+    */
     // Resets the time on the random function.
     srand(time(0));
+
     if (depositedMoney < 100) {
+        /*
+        * Om du gör som nedanstående kommentar behöver den här bara vara depositMoney();
+        */
         depositedMoney += depositMoney();
     }
     checkFieldResult(createFieldAndCheckWin(), betMoney());
@@ -53,12 +83,18 @@ int checkAge() {
             "You need to enter your age (18-120)\n"
             "How old are you?: ";
         cin >> age;
+        checkInput();
         cout << endl;
     } while (age < 18 && cout << "You must be at least 18 years old!\n" || age > 120 && cout << "You can't be older than 120 years!\n");
 
     return age;
 }
 
+
+/*
+* Denna behöver egentligen inte ha en return type
+* den kan vara void och modifiera "depositedMoney" direkt
+*/
 // Deposit money.
 int depositMoney() {
     // Variables.
@@ -71,10 +107,12 @@ int depositMoney() {
             "3. 500 kr\n"
             "How much do you want to deposit?: ";
         cin >> amountOfMoney;
+        checkInput();
         cout << endl;
     } while (amountOfMoney != 100 && amountOfMoney != 300 && amountOfMoney != 500 && cout << "You can only choose between 100, 300 or 500 kr.");
 
     cout << "You deposited " << amountOfMoney << " kr." << endl;
+    cout << endl;
 
     return amountOfMoney;
 }
@@ -86,12 +124,11 @@ int betMoney() {
 
     // The amount of money the user wants to bet.
     do {
-
-        cout << endl;
-        cout << "You also need to bet an amount of money that is at least 100 kr and not above your total deposit. (Type in the amount you want to bet).\n"
+        cout << "You need to bet an amount of money that is at least 100 kr and not above your total deposit. (Type in the amount you want to bet).\n"
             "You have " << depositedMoney << " kr deposited.\n"
             "How much do you want to bet?: ";
         cin >> bet;
+        checkInput();
         cout << endl;
     } while (bet < 100 && cout << "You cannot bet under 100 kr." << endl || bet > depositedMoney && cout << "You cannot bet more than your deposit (" << depositedMoney << ") kr." << endl);
 
@@ -126,28 +163,31 @@ int createFieldAndCheckWin() {
         cout << "\n";
     }
 
+    /*
+    * win++ ser mer clean ut, vet inte riktigt varför du inte behöll det
+    */
     // Check win condition.
     // Rows.
     for (int i = 0; i < 3; i++) {
         if (field[i][0] == field[i][1] && field[i][1] == field[i][2]) {
-            win += 1;
+            win++;
         }
     }
 
     // Columns.
     for (int i = 0; i < 3; i++) {
         if (field[0][i] == field[1][i] && field[1][i] == field[2][i]) {
-            win += 1;
+            win++;
         }
     }
 
     // Top left to bot right.
     if (field[0][0] == field[1][1] && field[1][1] == field[2][2]) {
-        win += 1;
+        win++;
     }
     // Bot left to top right.
     else if (field[0][2] == field[1][1] && field[1][1] == field[2][0]) {
-        win += 1;
+        win++;
     }
     return win;
 }
@@ -155,15 +195,15 @@ int createFieldAndCheckWin() {
 // Checks the result of the field and how much money the user won.
 void checkFieldResult(int winResult, int bet) {
     // How many rows, columns and/or diagonals that are correct.
-    // One argument
-    cout << winResult;
     switch (winResult) {
+        // One argument
     case 1:
         depositedMoney += bet * 2;
         totalWinToday += bet * 2;
         cout << "You got one argument correct, you win " << bet * 2 << " kr and your new deposit is " << depositedMoney << " kr!\n"
             "You have won/lost this much today: " << totalWinToday << " kr.";
         cout << endl;
+        break;
         // Two arguments
     case 2:
         depositedMoney += bet * 2;
@@ -171,6 +211,7 @@ void checkFieldResult(int winResult, int bet) {
         cout << "You got two arguments correct, you win " << bet * 2 << " kr and your new deposit is " << depositedMoney << " kr!\n"
             "You have won/lost this much today: " << totalWinToday << " kr.";
         cout << endl;
+        break;
         // Three arguments
     case 3:
         depositedMoney += bet * 3;
@@ -178,6 +219,7 @@ void checkFieldResult(int winResult, int bet) {
         cout << "You got three arguments correct, you win " << bet * 3 << " kr and your new deposit is " << depositedMoney << " kr!\n"
             "You have won/lost this much today: " << totalWinToday << " kr.";
         cout << endl;
+        break;
         // Four arguemnts
     case 4:
         depositedMoney += bet * 3;
@@ -185,6 +227,7 @@ void checkFieldResult(int winResult, int bet) {
         cout << "You got four arguments correct, you win " << bet * 3 << " kr and your new deposit is " << depositedMoney << " kr!\n"
             "You have won/lost this much today: " << totalWinToday << " kr.";
         cout << endl;
+        break;
         // Five arguments
     case 5:
         depositedMoney += bet * 5;
@@ -192,6 +235,7 @@ void checkFieldResult(int winResult, int bet) {
         cout << "You got five arguments correct, you win " << bet * 5 << " kr and your new deposit is " << depositedMoney << " kr!\n"
             "You have won/lost this much today: " << totalWinToday << " kr.";
         cout << endl;
+        break;
         // Six arguments
     case 6:
         depositedMoney += bet * 5;
@@ -199,13 +243,15 @@ void checkFieldResult(int winResult, int bet) {
         cout << "You got six arguments correct, you win " << bet * 5 << " kr and your new deposit is " << depositedMoney << " kr!\n"
             "You have won/lost this much today: " << totalWinToday << " kr.";
         cout << endl;
+        break;
         // Eight arguments
     case 8:
         depositedMoney += bet * 10;
         totalWinToday += bet * 10;
-        cout << "You got full field, you win " << bet * 10 << " kr and your new deposit is " << depositedMoney << " kr!\n"
+        cout << "You got a full field, you win " << bet * 10 << " kr and your new deposit is " << depositedMoney << " kr!\n"
             "You have won/lost this much today: " << totalWinToday << " kr.";
         cout << endl;
+        break;
         // Zero arguments
     case 0:
         depositedMoney -= bet;
@@ -213,6 +259,7 @@ void checkFieldResult(int winResult, int bet) {
         cout << "You lost " << bet << " kr and your new deposit is " << depositedMoney << " kr!\n"
             "You have won/lost this much today: " << totalWinToday << " kr.";
         cout << endl;
+        break;
     }
 }
 
@@ -221,6 +268,9 @@ void playAgain() {
     // Variables.
     int playAgain;
 
+    /*
+    * Grammatik... (det ska vara asks)
+    */
     // Askes if the user wants to play again.
     do {
         cout << endl;
@@ -229,21 +279,31 @@ void playAgain() {
             "2. Cash out\n"
             "Type in your answer here: ";
         cin >> playAgain;
+        checkInput();
         cout << endl;
     } while (playAgain != 1 && playAgain != 2 && cout << "You can only input 1 or 2.");
 
+    /*
+    * Tekniskt sett ska det vara wants här
+    */
+    // User wanted to play again.
     if (playAgain == 1) {
-        if (depositedMoney < 100) {
+        if (depositedMoney < 100) { // User does not have at least 100 kr deposited.
             cout << "You need to deposit more money." << endl;
             cout << endl;
-            gameLoop();
+            gameLoop(); // Runs the game again.
         }
         else {
-            gameLoop();
+            gameLoop(); // Runs the game again.
         }
     }
+    /*
+    * Och här ska det vara does
+    * (Ja, jag började en mening med och, stäm mig)
+    */
+    // The user did not want to play again.
     else {
-        cout << "Thanks for playing!" << endl;
+        cout << "Cashing out " << depositedMoney << " kr. Thanks for playing!" << endl;
         exit(0);
     }
 }
